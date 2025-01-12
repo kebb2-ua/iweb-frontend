@@ -3,7 +3,8 @@ import axios from '@/api/axios';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: "",
+    token: null,
+    email: null,
   }),
 
   getters: {
@@ -13,15 +14,10 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     // Método para iniciar sesión
     async login(email, password) {
-      try {
-        // Solicitud al servidor para iniciar sesión
-        const response = await axios.post('/auth/login', { "email": email, "password": password });
-
-        this.token = response.data;
-      } catch (error) {
-        console.error('Error al iniciar sesión:', error);
-        throw error;
-      }
+      // Solicitud al servidor para iniciar sesión
+      const response = await axios.post('/auth/login', { "email": email, "password": password });
+      this.token = response.data.jwt;
+      this.email = email.toLowerCase();
     },
 
     // Método para cerrar sesión
@@ -29,6 +25,7 @@ export const useAuthStore = defineStore('auth', {
       const response = axios.post('/auth/logout');
       if(response.status === 200) {
         this.token = null;
+        this.email = null;
       }
     }
   },
