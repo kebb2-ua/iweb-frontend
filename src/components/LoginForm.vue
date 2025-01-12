@@ -3,7 +3,6 @@ import { useAuthStore } from '@/stores/auth';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-let props = defineProps(['test']);
 let emit = defineEmits(['error']);
 
 const router = useRouter();
@@ -24,7 +23,6 @@ const login = async () => {
 </script>
 
 <template>
-  <h1>{{ props.test }}</h1>
   <v-form @submit.prevent="login">
     <div class="text-subtitle-1 text-medium-emphasis">
       Correo electrónico
