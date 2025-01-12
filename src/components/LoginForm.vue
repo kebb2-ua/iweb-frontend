@@ -1,9 +1,12 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+let props = defineProps(['test']);
 let emit = defineEmits(['error']);
 
+const router = useRouter();
 const authStore = useAuthStore();
 
 const email = ref('');
@@ -13,6 +16,7 @@ const visible = ref(false);
 const login = async () => {
   try {
     await authStore.login(email.value, password.value);
+    router.push('/');
   } catch(error) {
     emit('error', error);
   }
@@ -20,6 +24,7 @@ const login = async () => {
 </script>
 
 <template>
+  <h1>{{ props.test }}</h1>
   <v-form @submit.prevent="login">
     <div class="text-subtitle-1 text-medium-emphasis">
       Correo electrónico
