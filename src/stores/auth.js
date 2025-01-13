@@ -20,6 +20,24 @@ export const useAuthStore = defineStore('auth', {
       this.email = email.toLowerCase();
     },
 
+    // Método para registrarse
+    async registro(nif, nombre, apellidos, razonSocial, email, password, lineaDireccion1, lineaDireccion2, codigoPostal, pais, provincia, municipio, localidad){
+      let nombreDireccion = '';
+      
+      if ((nombre == "" || nombre == null) && (apellidos == ""  || apellidos == null)){
+        nombreDireccion = razonSocial;
+      } else if ( razonSocial == "" || razonSocial == null ){
+        nombreDireccion = nombre + " " + apellidos;
+      }
+      //console.log(nombreDireccion);
+      const response = await axios.post('/auth/register', {"nif": nif, "nombre": nombre, "apellidos":apellidos, "razonSocial": razonSocial, "email": email, "password": password, 
+        "direccion":{"nombre": nombreDireccion,"lineaDireccion1": lineaDireccion1, "lineaDireccion2": lineaDireccion2, "codigoPostal": codigoPostal, 
+      "pais": pais,"provincia": provincia, "localidad": localidad, "municipio": municipio}})
+
+      this.token = response.data.jwt;
+      this.email = email.toLowerCase();
+    },
+
     // Método para cerrar sesión
     logout() {
       const response = axios.post('/auth/logout');
