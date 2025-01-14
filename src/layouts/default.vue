@@ -20,7 +20,11 @@
         :key="item.text"
       >
         <v-divider v-if="item.type == 'divider'" />
-        
+
+        <v-list-subheader v-else-if="item.type == 'header'">
+          {{ item.text }}
+        </v-list-subheader>
+
         <v-list-item
           v-else
           :prepend-icon="item.icon"
@@ -50,10 +54,11 @@ const menuItems = reactive([
   { icon: 'mdi-account-group', text: 'Sobre nosotros', path: '/nosotros' },
   { icon: 'mdi-login-variant', text: 'Iniciar sesión', path: '/login', show: computed(() => !authStore.isAuthenticated) },
   { icon: 'mdi-account-plus', text: 'Registro', path: '/registro', show: computed(() => !authStore.isAuthenticated) },
-  { icon: 'mdi-account', text: 'Perfil', path: '/perfil', show: computed(() => authStore.isAuthenticated) },
-  { icon: 'mdi-cog', text: 'Configuración', path: '/perfil/editar', show: computed(() => authStore.isAuthenticated) },
+  { icon: 'mdi-currency-eur', text: 'Pagos', path: '/pagos', show: computed(() => authStore.isAuthenticated) },
+  { icon: 'mdi-cog', text: 'Ajustes', path: '/ajustes', show: computed(() => authStore.isAuthenticated) },
   { icon: 'mdi-logout', text: 'Cerrar sesión', path: '/logout', show: computed(() => authStore.isAuthenticated) },
-  { type: 'divider' },
+  { type: 'divider', show: computed(() => authStore.isAuthenticated) },
+  { type: 'header', text: 'Administración', show: computed(() => authStore.isAuthenticated) },
   { icon: 'mdi-account-group', text: 'Lista de usuarios', path: '/admin/listausuarios', show: computed(() => authStore.isAuthenticated),},
   { icon: 'mdi-truck-delivery', text: 'Lista de envíos', path: '/admin/listaenvios', show: computed(() => authStore.isAuthenticated), },
 ])
