@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from '@/api/axios'
+import { useRouter } from 'vue-router'
 
 const envios = ref([])
 const loading = ref(false)
 const error = ref(null)
+const router = useRouter()
 
 const fetchEnvios = async () => {
   loading.value = true
@@ -23,9 +25,9 @@ const fetchEnvios = async () => {
  * Función que se ejecutará al hacer clic en "Ver detalles".
  * En el futuro, puedes navegar a otra vista o mostrar un modal.
  */
-const verDetalles = (envio) => {
-  console.log('Ver detalles de envío:', envio)
-  // Lógica para mostrar detalles en otra pantalla o modal
+ const verDetalles = (envio) => {
+  // Redirige a /admin/envios/ con el código de seguimiento
+  router.push(`/admin/envios/${envio.seguimiento}`)
 }
 
 onMounted(async () => {
@@ -84,7 +86,10 @@ onMounted(async () => {
 
             <!-- Acción (botón) para ver los detalles -->
             <v-card-actions>
-              <v-btn color="primary" @click="verDetalles(envio)">
+              <v-btn
+                color="primary"
+                @click="verDetalles(envio)"
+              >
                 Ver detalles
               </v-btn>
             </v-card-actions>
