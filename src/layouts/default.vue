@@ -19,7 +19,7 @@
         v-for="item in menu"
         :key="item.text"
       >
-        <v-divider v-if="item.type == 'divider'" />
+        <v-divider v-if="item.type == 'divider'" class="my-2" />
 
         <v-list-subheader v-else-if="item.type == 'header'">
           {{ item.text }}
