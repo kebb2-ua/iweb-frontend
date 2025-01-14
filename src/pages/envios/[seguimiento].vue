@@ -48,6 +48,9 @@ onMounted(async () => {
               Información del envío
             </v-card-title>
             <v-card-text>
+              <span class="caption font-weight-bold">Observaciones</span>
+              <p>{{ envio.observaciones ?? 'Sin observaciones' }}</p>
+              <v-divider class="my-2" />
               <p>Número de seguimiento: {{ envio.seguimiento }}</p>
               <p>Estado actual: {{ envio.estado }}</p>
             </v-card-text>
