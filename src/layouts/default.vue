@@ -49,6 +49,8 @@ const menuItems = reactive([
   { icon: 'mdi-account', text: 'Perfil', path: '/perfil', show: computed(() => authStore.isAuthenticated) },
   { icon: 'mdi-cog', text: 'Configuración', path: '/perfil/editar', show: computed(() => authStore.isAuthenticated) },
   { icon: 'mdi-logout', text: 'Cerrar sesión', path: '/logout', show: computed(() => authStore.isAuthenticated) },
+  { icon: 'mdi-account-group', text: 'Lista de usuarios', path: '/admin/listausuarios', show: computed(() => authStore.isAuthenticated),},
+  { icon: 'mdi-truck-delivery', text: 'Lista de envíos', path: '/admin/listaenvios', show: computed(() => authStore.isAuthenticated), },
 ])
 
 const menu = computed(() => {
