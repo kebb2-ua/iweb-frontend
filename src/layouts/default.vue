@@ -7,7 +7,7 @@
     <v-list>
       <v-list-item
         prepend-avatar="@/assets/logo.svg"
-        title="Nombre web"
+        title="Yaco Packages"
         :subtitle="authStore.isAuthenticated ? authStore.email : null"
       />
     </v-list>
