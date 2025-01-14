@@ -2,7 +2,7 @@
   {
     "name": "logout",
     "meta": {
-      "redirectIfAuth": true
+      "requiresAuth": true
     }
   }
 </route>

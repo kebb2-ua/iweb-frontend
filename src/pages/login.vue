@@ -44,7 +44,7 @@ const showError = () => {
     >
       <v-card-title>Iniciar sesión</v-card-title>
       <v-card-text>
-        <LoginForm @error="showError" />
+        <LoginForm test="error" @error="showError" />
       </v-card-text>
     </v-card>
   </v-container>
