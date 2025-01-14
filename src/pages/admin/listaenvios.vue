@@ -1,6 +1,6 @@
 <route lang="json">
   {
-    "name": "envios",
+    "name": "envios-admin",
     "meta": {
       "requiresAuth": true
     }

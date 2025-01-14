@@ -41,9 +41,7 @@ const authStore = useAuthStore();
 const menuItems = reactive([
   { icon: 'mdi-home', text: 'Inicio', path: '/' },
   { icon: 'mdi-send', text: 'Envíos', path: '/envios' },
-  { icon: 'mdi-magnify', text: 'Buscar', path: '/buscar' },
   { icon: 'mdi-account-group', text: 'Sobre nosotros', path: '/nosotros' },
-  { icon: 'mdi-cart', text: 'Cesta', path: '/cesta' },
   { icon: 'mdi-login-variant', text: 'Iniciar sesión', path: '/login', show: computed(() => !authStore.isAuthenticated) },
   { icon: 'mdi-account-plus', text: 'Registro', path: '/registro', show: computed(() => !authStore.isAuthenticated) },
   { icon: 'mdi-account', text: 'Perfil', path: '/perfil', show: computed(() => authStore.isAuthenticated) },
