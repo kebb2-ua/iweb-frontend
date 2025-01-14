@@ -39,8 +39,8 @@ export const useAuthStore = defineStore('auth', {
     },
 
     // Método para cerrar sesión
-    logout() {
-      const response = axios.post('/auth/logout');
+    async logout() {
+      const response = await axios.post('/auth/logout');
       if(response.status === 200) {
         this.token = null;
         this.email = null;
@@ -49,7 +49,6 @@ export const useAuthStore = defineStore('auth', {
   },
 
   persist: {
-    storage: localStorage,
-    pick: ['token']
+    storage: localStorage
   }
 });
