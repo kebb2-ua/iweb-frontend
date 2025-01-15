@@ -1,20 +1,26 @@
+<route lang="json">
+  {
+    "name": "ajustes",
+    "meta": {
+      "requiresAuth": true
+    }
+  }
+</route>
+
 <script setup>
-import axios from '@/api/axios';
+import NuevaClaveAPI from '@/components/NuevaClaveAPI.vue';
+import { useApiKeyStore } from '@/stores/apikeys';
 import { useAuthStore } from '@/stores/auth';
-import { onMounted, ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
 
 const authStore = useAuthStore();
-
-let apiKeys = ref([]);
+const apiKeyStore = useApiKeyStore();
+const { keys } = storeToRefs(apiKeyStore);
 
 onMounted(async () => {
-  try {
-    const response = await axios.get('/auth/apikey');
-    apiKeys.value = response.data;
-  } catch (error) {
-    console.error(error);
-  }
-});
+  await apiKeyStore.getKeys();
+})
 </script>
 
 <template>
@@ -65,30 +71,32 @@ onMounted(async () => {
           </v-card-title>
           <v-card-text>
             <p>Estas son las claves API que has generado:</p>
-
-            <v-list
-              lines="three"
-              select-strategy="leaf"
-            >
-              <v-list-item
-                v-for="apiKey in apiKeys"
-                :key="apiKey.id"
-                :title="apiKey.publicId"
-              >
-                <template #append>
-                  <v-list-item-action>
-                    <v-btn prepend-icon="mdi-trash-can" color="error">
-                      Eliminar
-                    </v-btn>
-                  </v-list-item-action>
-                </template>
-              </v-list-item>
-            </v-list>
           </v-card-text>
+          <v-list density="compact">
+            <v-list-item v-if="keys.length === 0">
+              No has generado ninguna clave API.
+            </v-list-item>
+
+            <v-list-item
+              v-for="apiKey in keys"
+              :key="apiKey.id"
+              :title="apiKey.publicId"
+            >
+              <template #append>
+                <v-list-item-action>
+                  <v-btn
+                    prepend-icon="mdi-trash-can"
+                    color="error"
+                    @click="apiKeyStore.deleteApiKey(apiKey.publicId)"
+                  >
+                    Eliminar
+                  </v-btn>
+                </v-list-item-action>
+              </template>
+            </v-list-item>
+          </v-list>
           <v-card-actions>
-            <v-btn color="primary">
-              Crear nueva clave API
-            </v-btn>
+            <NuevaClaveAPI />
           </v-card-actions>
         </v-card>
       </v-col>
