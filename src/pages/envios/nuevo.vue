@@ -2,7 +2,7 @@
     {
       "name": "envio-nuevo",
       "meta": {
-        "redirectIfAuth": false
+        "requiresAuth": true
       }
     }
 </route>
@@ -21,7 +21,7 @@
 
 <template>
   <v-container>
-    <h1 class="text-h4 my-6">
+    <h1 class="text-h3 my-6">
       Nuevo envío
     </h1>
 

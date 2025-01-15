@@ -24,9 +24,5 @@ export const useApiKeyStore = defineStore('apikeys', {
         this.keys = this.keys.filter((k) => k.publicId !== key);
       }
     }
-  },
-
-  persist: {
-    storage: localStorage
   }
 });
