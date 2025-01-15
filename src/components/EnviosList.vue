@@ -38,7 +38,9 @@ onMounted(async () => {
 
 <template>
   <div>
-    <h1 class="text-h4">Lista de Envíos</h1>
+    <h1 class="text-h4">
+      Lista de Envíos
+    </h1>
 
     <!-- Loading -->
     <v-progress-circular
@@ -46,7 +48,7 @@ onMounted(async () => {
       indeterminate
       color="blue"
       class="my-4"
-    ></v-progress-circular>
+    />
 
     <!-- Error -->
     <v-alert

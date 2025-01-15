@@ -28,25 +28,45 @@ onMounted(() => {
 <template>
   <v-container>
     <div>
-      <h1 class="text-h4">Lista de Usuarios</h1>
+      <h1 class="text-h4">
+        Lista de Usuarios
+      </h1>
 
       <!-- Loading -->
-      <v-progress-circular v-if="loading" indeterminate color="blue" class="my-4"></v-progress-circular>
+      <v-progress-circular
+        v-if="loading"
+        indeterminate
+        color="blue"
+        class="my-4"
+      />
 
       <!-- Error -->
-      <v-alert v-if="error" type="error" class="my-4">
+      <v-alert
+        v-if="error"
+        type="error"
+        class="my-4"
+      >
         {{ error }}
       </v-alert>
 
       <!-- Sin usuarios -->
-      <v-card v-if="!loading && users.length === 0" class="my-4">
+      <v-card
+        v-if="!loading && users.length === 0"
+        class="my-4"
+      >
         <v-card-text>No hay usuarios disponibles.</v-card-text>
       </v-card>
 
       <!-- Lista de usuarios -->
       <v-container v-else>
         <v-row>
-          <v-col v-for="(user, index) in users" :key="index" cols="12" sm="6" md="4">
+          <v-col
+            v-for="(user, index) in users"
+            :key="index"
+            cols="12"
+            sm="6"
+            md="4"
+          >
             <v-card class="mb-4">
               <v-card-title>
                 <!-- Muestra el campo que tengas (ej: user.name o user.nombre) -->
