@@ -2,7 +2,7 @@
     {
       "name": "envio-nuevo",
       "meta": {
-        "redirectIfAuth": false
+        "requiresAuth": true
       }
     }
 </route>
