@@ -2,6 +2,9 @@
     import countries from '@/assets/paises.js'
     import { useEnvioStore } from '@/stores/envio';
     import { ref } from 'vue';
+    import { useRouter } from 'vue-router';
+
+    let emit = defineEmits(['error']);
 
     let nombreRemitente = ref('');
     let lineaDireccionOrigen1 = ref('');
@@ -23,6 +26,8 @@
     let localidadDestino = ref('');
 
     let bultos = ref([]);
+    let observaciones = ref('');
+    const router = useRouter();
 
     const envioStore = useEnvioStore();
 
@@ -47,30 +52,62 @@
 
     // Submit del formulario
     const crearPedido = async () => {
-        console.log({
-            nombreRemitente: nombreRemitente.value,
-            lineaDireccionOrigen1: lineaDireccionOrigen1.value,
-            lineaDireccionOrigen2: lineaDireccionOrigen2.value,
-            codigoPostalOrigen: codigoPostalOrigen.value,
-            paisOrigen: paisOrigen.value,
-            provinciaOrigen: provinciaOrigen.value,
-            municipioOrigen: municipioOrigen.value,
-            localidadOrigen: localidadOrigen.value,
-            nifDestinatario: nifDestinatario.value,
-            nombreDestinatario: nombreDestinatario.value,
-            lineaDireccionDestino1: lineaDireccionDestino1.value,
-            lineaDireccionDestino2: lineaDireccionDestino2.value,
-            codigoPostalDestino: codigoPostalDestino.value,
-            paisDestino: paisDestino.value,
-            provinciaDestino: provinciaDestino.value,
-            municipioDestino: municipioDestino.value,
-            localidadDestino: localidadDestino.value,
-            observaciones: observaciones.value,
-            bultos: bultos.value
-        });
-        
-        // Aquí se enviaría la información a la API
+        try {
+            console.log({
+                nombreRemitente: nombreRemitente.value,
+                lineaDireccionOrigen1: lineaDireccionOrigen1.value,
+                lineaDireccionOrigen2: lineaDireccionOrigen2.value,
+                codigoPostalOrigen: codigoPostalOrigen.value,
+                paisOrigen: paisOrigen.value,
+                provinciaOrigen: provinciaOrigen.value,
+                municipioOrigen: municipioOrigen.value,
+                localidadOrigen: localidadOrigen.value,
+                nifDestinatario: nifDestinatario.value,
+                nombreDestinatario: nombreDestinatario.value,
+                lineaDireccionDestino1: lineaDireccionDestino1.value,
+                lineaDireccionDestino2: lineaDireccionDestino2.value,
+                codigoPostalDestino: codigoPostalDestino.value,
+                paisDestino: paisDestino.value,
+                provinciaDestino: provinciaDestino.value,
+                municipioDestino: municipioDestino.value,
+                localidadDestino: localidadDestino.value,
+                observaciones: observaciones.value,
+                bultos: bultos.value,
+            });
 
+            // Verifica que 'bultos.value' sea un array
+            if (!Array.isArray(bultos.value)) {
+                console.log("El parámetro 'bultos' no es un array válido.");
+            }
+
+            await envioStore.crearEnvio(
+                nombreRemitente.value, 
+                lineaDireccionOrigen1.value, 
+                lineaDireccionOrigen2.value, 
+                codigoPostalOrigen.value, 
+                paisOrigen.value, 
+                provinciaOrigen.value, 
+                municipioOrigen.value, 
+                localidadOrigen.value, 
+                nifDestinatario.value, 
+                nombreDestinatario.value, 
+                lineaDireccionDestino1.value, 
+                lineaDireccionDestino2.value, 
+                codigoPostalDestino.value, 
+                paisDestino.value, 
+                provinciaDestino.value, 
+                municipioDestino.value, 
+                localidadDestino.value, 
+                bultos.value,
+                observaciones.value
+            ); 
+
+            router.push('/envios');
+
+        } catch (error) {
+            console.error("Ocurrió un error al intentar crear el pedido:", error);
+            emit('error', error);
+        }
     }
 </script>
 
@@ -355,7 +392,7 @@
                 />
 
                 <div class="text-subtitle-1 text-medium-emphasis">
-                    Altura (mm)
+                    Altura (cm)
                 </div>
 
                 <v-text-field
@@ -368,7 +405,7 @@
                 />
 
                 <div class="text-subtitle-1 text-medium-emphasis">
-                    Ancho (mm)
+                    Ancho (cm)
                 </div>
 
                 <v-text-field
@@ -381,7 +418,7 @@
                 />
 
                 <div class="text-subtitle-1 text-medium-emphasis">
-                    Profundidad (mm)
+                    Profundidad (cm)
                 </div>
 
                 <v-text-field

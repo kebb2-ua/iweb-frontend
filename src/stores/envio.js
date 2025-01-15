@@ -13,9 +13,9 @@ export const useEnvioStore = defineStore('envio', {
     actions: {
       // Método para crear un envío
         async crearEnvio(nombreRemitente, lineaDireccionOrigen1, lineaDireccionOrigen2, codigoPostalOrigen, paisOrigen, provinciaOrigen, municipioOrigen, localidadOrigen, 
-          nifDestinatario, nombreDestinatario, lineaDireccionDestino1, lineaDireccionDestino2, codigoPostalDestino, paisDestino, provinciaDestino, municipioDestino, localidadDestino, bultos) {
+          nifDestinatario, nombreDestinatario, lineaDireccionDestino1, lineaDireccionDestino2, codigoPostalDestino, paisDestino, provinciaDestino, municipioDestino, localidadDestino, bultos, observaciones) {
            
-            const response = await axios.post('/envios', {
+            await axios.post('/envios', {
               "origen":{
                 "nombre": nombreRemitente,
                 "lineaDireccion1": lineaDireccionOrigen1,
@@ -39,16 +39,17 @@ export const useEnvioStore = defineStore('envio', {
                 "localidad": localidadDestino
               },
 
-              "bultos": bultos.map(bulto => ({
-                descripcion: bulto.descripcion,
-                peso: bulto.peso,
-                altura: bulto.altura,
-                ancho: bulto.ancho,
-                profundidad: bulto.profundidad,
-                peligroso: bulto.peligroso}))
+              "bultos": Array.isArray(bultos) ? bultos.map((bulto) => ({
+                "descripcion": bulto.descripcion,
+                "peso": bulto.peso,
+                "altura": bulto.altura,
+                "ancho": bulto.ancho,
+                "profundidad": bulto.profundidad,
+                "peligroso": bulto.peligroso,
+              })) : [],
+              
+              "observaciones": observaciones
             }
-
-
           );
         },  
     },

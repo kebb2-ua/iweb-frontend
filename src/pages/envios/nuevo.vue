@@ -1,8 +1,21 @@
+<route lang="json">
+    {
+      "name": "envio-nuevo",
+      "meta": {
+        "redirectIfAuth": false
+      }
+    }
+</route>
+
 <script setup>
     import NuevoPedido from '@/components/NuevoPedido.vue';
+    import { ref } from 'vue';
 
+    const error = ref(false);
 
-
+    const showError = () => {
+      error.value = true;
+    };
 
 </script>
 
@@ -10,6 +23,15 @@
     <v-container>
         <h1 class="text-h4 my-6">Nuevo envío</h1>
 
-       <NuevoPedido />
+        <v-alert
+          v-model="error"
+          class="mx-auto mb-6"
+          title="Error"
+          text="Ha ocurrido un error durante el registro"
+          type="error"
+          closable
+        />
+
+       <NuevoPedido @error="showError"/>
     </v-container>
 </template>
