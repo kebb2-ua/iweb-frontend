@@ -15,6 +15,7 @@ async function generateKey() {
   <v-dialog
     max-width="500"
     @after-enter="generateKey"
+    @after-leave="key = null"
   >
     <template #activator="{ props: activatorProps }">
       <v-btn
