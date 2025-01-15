@@ -20,18 +20,20 @@
 </script>
 
 <template>
-    <v-container>
-        <h1 class="text-h4 my-6">Nuevo envío</h1>
+  <v-container>
+    <h1 class="text-h4 my-6">
+      Nuevo envío
+    </h1>
 
-        <v-alert
-          v-model="error"
-          class="mx-auto mb-6"
-          title="Error"
-          text="Ha ocurrido un error durante el registro"
-          type="error"
-          closable
-        />
+    <v-alert
+      v-model="error"
+      class="mx-auto mb-6"
+      title="Error"
+      text="Ha ocurrido un error durante el registro"
+      type="error"
+      closable
+    />
 
-       <NuevoPedido @error="showError"/>
-    </v-container>
+    <NuevoPedido @error="showError" />
+  </v-container>
 </template>
