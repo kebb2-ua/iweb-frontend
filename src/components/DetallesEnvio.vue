@@ -5,9 +5,25 @@ let props = defineProps({
     required: true
   }
 });
+
+defineEmits(['pagar']);
 </script>
 
 <template>
+  <v-alert
+    v-if="props.envio.estadoPago === 'PENDIENTE'"
+    class="mb-4"
+    title="Estado del pago"
+    text="El pago no se ha completado. Por favor, procede a realizar el pago para que el envío pueda ser procesado. "
+    color="red"
+    icon="mdi-close-octagon"
+  >
+    <span
+      style="cursor: pointer; text-decoration: underline;"
+      @click="$emit('pagar')"
+    >Realizar pago</span>
+  </v-alert>
+
   <v-card>
     <v-card-text>
       <v-row>
@@ -24,6 +40,7 @@ let props = defineProps({
             <v-divider class="my-2" />
             <p>Número de seguimiento: {{ props.envio.seguimiento }}</p>
             <p>Estado actual: {{ props.envio.estado }}</p>
+            <p>Estado del pago: {{ props.envio.estadoPago }}</p>
           </v-card-text>
         </v-col>
         <v-col

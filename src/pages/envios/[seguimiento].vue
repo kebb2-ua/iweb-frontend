@@ -32,6 +32,17 @@ onMounted(async () => {
     showError();
   }
 });
+
+const pagarPedido = async () => {
+  try {
+    const response = await axios.post('/pagos/generate', {
+      seguimiento: envio.value.seguimiento
+    });
+    window.open(response.data.url, '_blank');
+  } catch (error) {
+    console.error(error);
+  }
+}
 </script>
 
 <template>
@@ -60,6 +71,7 @@ onMounted(async () => {
     <DetallesEnvio
       v-if="envio"
       :envio="envio"
+      @pagar="pagarPedido"
     />
   </v-container>
 </template>

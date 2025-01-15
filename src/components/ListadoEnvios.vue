@@ -24,6 +24,9 @@ let props = defineProps({
           Número de seguimiento
         </th>
         <th class="text-left">
+          Estado del pago
+        </th>
+        <th class="text-left">
           Acciones
         </th>
       </tr>
@@ -37,6 +40,7 @@ let props = defineProps({
         <td>{{ envio.destino.lineaDireccion1 }} {{ envio.destino.lineaDireccion2 }}, {{ envio.destino.codigoPostal }} {{ envio.destino.ciudad }} {{ envio.destino.provincia }} ({{ envio.destino.pais }})</td>
         <td>{{ envio.bultos.length }} bulto(s)</td>
         <td>{{ envio.seguimiento }}</td>
+        <td>{{ envio.estadoPago ?? 'DESCONOCIDO' }}</td>
         <td>
           <v-btn
             size="small"
