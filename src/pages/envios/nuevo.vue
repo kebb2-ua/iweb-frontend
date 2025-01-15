@@ -29,7 +29,7 @@
       v-model="error"
       class="mx-auto mb-6"
       title="Error"
-      text="Ha ocurrido un error durante el registro"
+      text="Ha ocurrido un error durante la creación del envío"
       type="error"
       closable
     />

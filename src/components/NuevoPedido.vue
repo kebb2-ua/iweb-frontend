@@ -53,28 +53,6 @@
     // Submit del formulario
     const crearPedido = async () => {
         try {
-            console.log({
-                nombreRemitente: nombreRemitente.value,
-                lineaDireccionOrigen1: lineaDireccionOrigen1.value,
-                lineaDireccionOrigen2: lineaDireccionOrigen2.value,
-                codigoPostalOrigen: codigoPostalOrigen.value,
-                paisOrigen: paisOrigen.value,
-                provinciaOrigen: provinciaOrigen.value,
-                municipioOrigen: municipioOrigen.value,
-                localidadOrigen: localidadOrigen.value,
-                nifDestinatario: nifDestinatario.value,
-                nombreDestinatario: nombreDestinatario.value,
-                lineaDireccionDestino1: lineaDireccionDestino1.value,
-                lineaDireccionDestino2: lineaDireccionDestino2.value,
-                codigoPostalDestino: codigoPostalDestino.value,
-                paisDestino: paisDestino.value,
-                provinciaDestino: provinciaDestino.value,
-                municipioDestino: municipioDestino.value,
-                localidadDestino: localidadDestino.value,
-                observaciones: observaciones.value,
-                bultos: bultos.value,
-            });
-
             // Verifica que 'bultos.value' sea un array
             if (!Array.isArray(bultos.value)) {
                 console.log("El parámetro 'bultos' no es un array válido.");
