@@ -1,13 +1,24 @@
 <template>
   <v-container>
     <div>
-      <h1 class="text-h4">Detalles de Envío</h1>
+      <h1 class="text-h4">
+        Detalles de Envío
+      </h1>
 
       <!-- Loading -->
-      <v-progress-circular v-if="loading" indeterminate color="blue" class="my-4"></v-progress-circular>
+      <v-progress-circular
+        v-if="loading"
+        indeterminate
+        color="blue"
+        class="my-4"
+      />
 
       <!-- Error -->
-      <v-alert v-if="error" type="error" class="my-4">
+      <v-alert
+        v-if="error"
+        type="error"
+        class="my-4"
+      >
         {{ error }}
       </v-alert>
 
@@ -52,7 +63,11 @@
           <strong>Bultos ({{ envio.bultos.length }})</strong>
         </v-card-subtitle>
         <v-card-text>
-          <div v-for="(bulto, idx) in envio.bultos" :key="idx" class="mb-4">
+          <div
+            v-for="(bulto, idx) in envio.bultos"
+            :key="idx"
+            class="mb-4"
+          >
             <p><strong>ID:</strong> {{ bulto.id }}</p>
             <p><strong>Peso:</strong> {{ bulto.peso }} kg</p>
             <p>
@@ -60,7 +75,9 @@
               {{ bulto.altura }} cm x {{ bulto.ancho }} cm x {{ bulto.profundidad }} cm
             </p>
             <p><strong>Peligroso:</strong> {{ bulto.peligroso ? 'Sí' : 'No' }}</p>
-            <p v-if="bulto.descripcion"><strong>Descripción:</strong> {{ bulto.descripcion }}</p>
+            <p v-if="bulto.descripcion">
+              <strong>Descripción:</strong> {{ bulto.descripcion }}
+            </p>
           </div>
         </v-card-text>
       </v-card>

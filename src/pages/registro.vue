@@ -38,7 +38,7 @@ const showError = () => {
     >
       <v-card-title>Registro</v-card-title>
             
-      <RegistroForm @error="showError"/>
+      <RegistroForm @error="showError" />
     </v-card>
   </v-container>
 </template>
