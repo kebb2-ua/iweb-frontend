@@ -1,3 +1,0 @@
-<template>
-  sada
-</template>

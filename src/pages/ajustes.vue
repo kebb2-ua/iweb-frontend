@@ -1,11 +1,27 @@
 <script setup>
+import axios from '@/api/axios';
 import { useAuthStore } from '@/stores/auth';
+import { onMounted, ref } from 'vue';
 
 const authStore = useAuthStore();
+
+let apiKeys = ref([]);
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('/auth/apikey');
+    apiKeys.value = response.data;
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
 
 <template>
   <v-container>
+    <h1 class="text-h3 my-6">
+      Ajustes
+    </h1>
     <v-row>
       <v-col
         cols="12"
@@ -48,11 +64,30 @@ const authStore = useAuthStore();
             <h3>Tus claves API</h3>
           </v-card-title>
           <v-card-text>
-            asdasd
+            <p>Estas son las claves API que has generado:</p>
+
+            <v-list
+              lines="three"
+              select-strategy="leaf"
+            >
+              <v-list-item
+                v-for="apiKey in apiKeys"
+                :key="apiKey.id"
+                :title="apiKey.publicId"
+              >
+                <template #append>
+                  <v-list-item-action>
+                    <v-btn prepend-icon="mdi-trash-can" color="error">
+                      Eliminar
+                    </v-btn>
+                  </v-list-item-action>
+                </template>
+              </v-list-item>
+            </v-list>
           </v-card-text>
           <v-card-actions>
             <v-btn color="primary">
-              Actualizar
+              Crear nueva clave API
             </v-btn>
           </v-card-actions>
         </v-card>
