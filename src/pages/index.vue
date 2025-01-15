@@ -33,7 +33,7 @@
       max-width="640"
       rounded="lg"
     >
-      <v-card-title class="font-weight-bold text-high-emphasis mb-2">Volando para llevar tus sueños.</v-card-title>
+      <v-card-title class="font-weight-bold text-high-emphasis mb-2">Volando para llevar tus sueños</v-card-title>
 
       <v-card-text>
         <p class="mb-2 mx-5">
@@ -59,7 +59,7 @@
 
         <v-card-text>
           <p class="mb-2 mx-3">
-            Para poder realizar un envío con Yako Packages, simplemente sigue estos pasos:
+            Para poder realizar un envío con Yaco Packages, simplemente sigue estos pasos:
           </p>
           <ol>
             <li class="ml-10">Regístrate en nuestra plataforma.</li>
