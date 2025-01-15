@@ -2,7 +2,7 @@
 import countries from '@/assets/paises.js'
 import { useAuthStore } from '@/stores/auth';
 import { useEnvioStore } from '@/stores/envio';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 let emit = defineEmits(['error']);
@@ -11,28 +11,24 @@ const authStore = useAuthStore();
 
 let paso = ref("ORIGEN");
 
-let nombreRemitente = ref('');
-let lineaDireccionOrigen1 = ref();
-let lineaDireccionOrigen2 = ref('');
-let codigoPostalOrigen = ref('');
-let paisOrigen = ref('');
-let provinciaOrigen = ref('');
-let municipioOrigen = ref('');
-let localidadOrigen = ref('');
+let nombreRemitente = ref(authStore.user.nombre + ' ' + authStore.user.apellidos);
+let lineaDireccionOrigen1 = ref(authStore.user.direccion.lineaDireccion1);
+let lineaDireccionOrigen2 = ref(authStore.user.direccion.lineaDireccion2);
+let codigoPostalOrigen = ref(authStore.user.direccion.codigoPostal);
+let paisOrigen = ref(authStore.user.direccion.pais);
+let provinciaOrigen = ref(authStore.user.direccion.provincia);
+let municipioOrigen = ref(authStore.user.direccion.municipio);
+let localidadOrigen = ref(authStore.user.direccion.localidad);
 
 let nifDestinatario = ref('');
 let nombreDestinatario = ref('');
 let lineaDireccionDestino1 = ref('');
 let lineaDireccionDestino2 = ref('');
 let codigoPostalDestino = ref('');
-let paisDestino = ref('');
+let paisDestino = ref('España');
 let provinciaDestino = ref('');
 let municipioDestino = ref('');
 let localidadDestino = ref('');
-
-onMounted(async () => {
-  nombreRemitente.value = authStore.user.nombre + ' ' + authStore.user.apellidos;
-});
 
 let bultos = ref([]);
 let observaciones = ref('');
@@ -459,14 +455,6 @@ const crearPedido = async () => {
           Bultos
         </div>
 
-        <v-btn
-          class="mb-4"
-          color="primary"
-          @click="agregarBulto"
-        >
-          Añadir bulto
-        </v-btn>
-
         <div
           v-for="(bulto, index) in bultos"
           :key="index"
@@ -476,69 +464,80 @@ const crearPedido = async () => {
             Bulto {{ index + 1 }}
           </div>
 
-          <div class="text-subtitle-1 text-medium-emphasis">
-            Peso (Kg)
-          </div>
+          <v-row>
+            <v-col>
+              <div class="text-subtitle-1 text-medium-emphasis">
+                Peso (Kg)
+              </div>
 
 
-          <v-text-field
-            v-model="bulto.peso"
-            type="text"
-            density="compact"
-            prepend-inner-icon="mdi-scale"
-            placeholder="Peso (kg)"
-            variant="outlined"
-          />
+              <v-text-field
+                v-model="bulto.peso"
+                type="text"
+                density="compact"
+                prepend-inner-icon="mdi-scale"
+                placeholder="Peso (kg)"
+                variant="outlined"
+              />
+            </v-col>
+            <v-col>
+              <div class="text-subtitle-1 text-medium-emphasis">
+                Altura (cm)
+              </div>
 
-          <div class="text-subtitle-1 text-medium-emphasis">
-            Altura (cm)
-          </div>
+              <v-text-field
+                v-model="bulto.altura"
+                type="text"
+                density="compact"
+                prepend-inner-icon="mdi-ruler"
+                placeholder="1920"
+                variant="outlined"
+              />
+            </v-col>
+            <v-col>
+              <div class="text-subtitle-1 text-medium-emphasis">
+                Ancho (cm)
+              </div>
 
-          <v-text-field
-            v-model="bulto.altura"
-            type="text"
-            density="compact"
-            prepend-inner-icon="mdi-ruler"
-            placeholder="1920"
-            variant="outlined"
-          />
+              <v-text-field
+                v-model="bulto.ancho"
+                type="text"
+                density="compact"
+                prepend-inner-icon="mdi-ruler"
+                placeholder="1080"
+                variant="outlined"
+              />
+            </v-col>
+            <v-col>
+              <div class="text-subtitle-1 text-medium-emphasis">
+                Profundidad (cm)
+              </div>
 
-          <div class="text-subtitle-1 text-medium-emphasis">
-            Ancho (cm)
-          </div>
+              <v-text-field
+                v-model="bulto.profundidad"
+                type="text"
+                density="compact"
+                prepend-inner-icon="mdi-ruler"
+                placeholder="420"
+                variant="outlined"
+              />
+            </v-col>
+          </v-row>
 
-          <v-text-field
-            v-model="bulto.ancho"
-            type="text"
-            density="compact"
-            prepend-inner-icon="mdi-ruler"
-            placeholder="1080"
-            variant="outlined"
-          />
+          <v-row>
+            <v-col>
+              <div class="text-subtitle-1 text-medium-emphasis">
+                Descripción
+              </div>
 
-          <div class="text-subtitle-1 text-medium-emphasis">
-            Profundidad (cm)
-          </div>
-
-          <v-text-field
-            v-model="bulto.profundidad"
-            type="text"
-            density="compact"
-            prepend-inner-icon="mdi-ruler"
-            placeholder="420"
-            variant="outlined"
-          />
-
-          <div class="text-subtitle-1 text-medium-emphasis">
-            Descripción
-          </div>
-
-          <v-textarea
-            v-model="bulto.descripcion"
-            density="compact"
-            placeholder="Descripción del contenido"
-            variant="outlined"
-          />
+              <v-textarea
+                v-model="bulto.descripcion"
+                density="compact"
+                placeholder="Descripción del contenido"
+                variant="outlined"
+              />
+            </v-col>
+          </v-row>
 
           <v-checkbox
             v-model="bulto.peligroso"
@@ -553,6 +552,18 @@ const crearPedido = async () => {
             Eliminar bulto
           </v-btn>
         </div>
+
+        <v-row>
+          <v-col>
+            <v-btn
+              class="mb-4"
+              color="primary"
+              @click="agregarBulto"
+            >
+              Añadir bulto
+            </v-btn>
+          </v-col>
+        </v-row>
 
         <v-row>
           <v-col>
