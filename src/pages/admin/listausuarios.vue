@@ -1,3 +1,13 @@
+<route lang="json">
+{
+  "name": "usuarios-admin",
+  "meta": {
+    "requiresAuth": true,
+    "requiresRole": "ADMIN"
+  }
+}
+</route>
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from '@/api/axios'

@@ -21,6 +21,8 @@ router.beforeEach((to, from, next) => {
     next("/login")
   } else if(to.meta.redirectIfAuth && authStore.isAuthenticated) {
     next("/")
+  } else if(to.meta.requiresRole && (!authStore.isAuthenticated || !authStore.getRoles.includes(to.meta.requiresRole))) {
+    next("/")
   } else next()
 })
 

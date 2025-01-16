@@ -1,3 +1,13 @@
+<route lang="json">
+{
+  "name": "detalles-envio-admin",
+  "meta": {
+    "requiresAuth": true,
+    "requiresRole": "ADMIN"
+  }
+}
+</route>
+
 <template>
   <v-container
     fluid

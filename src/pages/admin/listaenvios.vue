@@ -1,15 +1,16 @@
 <route lang="json">
-  {
-    "name": "envios-admin",
-    "meta": {
-      "requiresAuth": true
-    }
+{
+  "name": "envios-admin",
+  "meta": {
+    "requiresAuth": true,
+    "requiresRole": "ADMIN"
   }
-  </route>
+}
+</route>
 
-  <script setup>
-  import EnviosList from '@/components/EnviosList.vue';
-  </script>
+<script setup>
+import EnviosList from '@/components/EnviosList.vue';
+</script>
 
 <template>
   <v-container>
