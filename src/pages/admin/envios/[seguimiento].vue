@@ -1,25 +1,46 @@
 <template>
-  <v-container fluid class="py-4 background-light">
-    <div class="mx-auto" style="max-width: 1000px;">
+  <v-container
+    fluid
+    class="py-4 background-light"
+  >
+    <div
+      class="mx-auto"
+      style="max-width: 1000px;"
+    >
       <!-- Título principal -->
       <h1 class="text-h4 font-weight-bold my-4 title-text">
         Detalles de Envío
       </h1>
 
       <!-- Loading -->
-      <div class="d-flex justify-center" v-if="loading">
-        <v-progress-circular indeterminate color="primary" class="my-4" />
+      <div
+        v-if="loading"
+        class="d-flex justify-center"
+      >
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          class="my-4"
+        />
       </div>
 
       <!-- Error -->
-      <v-alert v-if="error" type="error" class="my-4" border="left" density="compact">
+      <v-alert
+        v-if="error"
+        type="error"
+        class="my-4"
+        border="left"
+        density="compact"
+      >
         {{ error }}
       </v-alert>
 
       <!-- Datos del Envío -->
-      <v-card v-if="!loading && envio" class="pa-4 elevation-1 card-minimal">
+      <v-card
+        v-if="!loading && envio"
+        class="pa-4 elevation-1 card-minimal"
+      >
         <v-card-text class="py-2">
-
           <!-- Seguimiento -->
           <v-row>
             <v-col cols="12">
@@ -32,13 +53,18 @@
             </v-col>
           </v-row>
 
-          <v-divider></v-divider>
+          <v-divider />
 
           <!-- ORIGEN Y DESTINO EN COLUMNAS -->
           <v-row class="pt-4">
             <!-- Origen -->
-            <v-col cols="12" md="6">
-              <h3 class="subtitle font-weight-medium mb-2">Origen</h3>
+            <v-col
+              cols="12"
+              md="6"
+            >
+              <h3 class="subtitle font-weight-medium mb-2">
+                Origen
+              </h3>
               <ul class="no-bullet">
                 <li><strong>Nombre:</strong> {{ envio.origen.nombre }}</li>
                 <li><strong>Dirección:</strong> {{ envio.origen.lineaDireccion1 }}</li>
@@ -51,8 +77,13 @@
             </v-col>
 
             <!-- Destino -->
-            <v-col cols="12" md="6">
-              <h3 class="subtitle font-weight-medium mb-2">Destino</h3>
+            <v-col
+              cols="12"
+              md="6"
+            >
+              <h3 class="subtitle font-weight-medium mb-2">
+                Destino
+              </h3>
               <ul class="no-bullet">
                 <li><strong>Nombre:</strong> {{ envio.destino.nombre }}</li>
                 <li><strong>Dirección:</strong> {{ envio.destino.lineaDireccion1 }}</li>
@@ -65,7 +96,7 @@
             </v-col>
           </v-row>
 
-          <v-divider class="my-4"></v-divider>
+          <v-divider class="my-4" />
 
           <!-- BULTOS -->
           <v-row>
@@ -73,7 +104,11 @@
               <h3 class="subtitle font-weight-medium mb-2">
                 Bultos ({{ envio.bultos.length }})
               </h3>
-              <div v-for="(bulto, idx) in envio.bultos" :key="idx" class="bulto-container mb-4">
+              <div
+                v-for="(bulto, idx) in envio.bultos"
+                :key="idx"
+                class="bulto-container mb-4"
+              >
                 <ul class="no-bullet">
                   <li><strong>ID:</strong> {{ bulto.id }}</li>
                   <li><strong>Peso:</strong> {{ bulto.peso }} kg</li>
@@ -89,7 +124,10 @@
                   </li>
                 </ul>
                 <!-- Separador entre bultos (opcional) -->
-                <v-divider v-if="idx < envio.bultos.length - 1" class="mt-3"></v-divider>
+                <v-divider
+                  v-if="idx < envio.bultos.length - 1"
+                  class="mt-3"
+                />
               </div>
             </v-col>
           </v-row>
@@ -97,11 +135,13 @@
           <!-- REPARTIDOR + BOTÓN ASIGNAR/CAMBIAR -->
           <v-row>
             <v-col cols="12">
-              <v-divider class="my-4"></v-divider>
+              <v-divider class="my-4" />
 
               <!-- Datos del Repartidor (si existe) -->
               <div v-if="envio.repartidor">
-                <h3 class="subtitle font-weight-medium mb-2">Repartidor</h3>
+                <h3 class="subtitle font-weight-medium mb-2">
+                  Repartidor
+                </h3>
                 <ul class="no-bullet">
                   <li><strong>ID:</strong> {{ envio.repartidor.id }}</li>
                   <li><strong>NIF:</strong> {{ envio.repartidor.nif }}</li>
@@ -142,7 +182,11 @@
               </div>
 
               <!-- Botón Asignar/Cambiar -->
-              <v-btn color="primary" class="mt-4" @click="abrirDialogRepartidor">
+              <v-btn
+                color="primary"
+                class="mt-4"
+                @click="abrirDialogRepartidor"
+              >
                 {{ envio.repartidor ? 'Cambiar Repartidor' : 'Asignar Repartidor' }}
               </v-btn>
             </v-col>
@@ -152,7 +196,10 @@
     </div>
 
     <!-- DIALOG PARA SELECCIONAR REPARTIDOR -->
-    <v-dialog v-model="openRepartidorDialog" max-width="500">
+    <v-dialog
+      v-model="openRepartidorDialog"
+      max-width="500"
+    >
       <v-card>
         <v-card-title>
           <span class="text-h6">
@@ -162,15 +209,29 @@
         <v-card-text>
           <!-- Desplegable de repartidores: solo se muestra el campo "nombre" -->
           <!-- En Vuetify 3: item-title="nombre" -->
-          <v-select v-model="selectedRepartidor" :items="repartidores" item-title="nombre" return-object
-            label="Selecciona un repartidor" density="compact" />
+          <v-select
+            v-model="selectedRepartidor"
+            :items="repartidores"
+            item-title="nombre"
+            return-object
+            label="Selecciona un repartidor"
+            density="compact"
+          />
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text color="secondary" @click="cancelarRepartidor">
+          <v-spacer />
+          <v-btn
+            text
+            color="secondary"
+            @click="cancelarRepartidor"
+          >
             Cancelar
           </v-btn>
-          <v-btn text color="primary" @click="asignarRepartidorAlEnvio">
+          <v-btn
+            text
+            color="primary"
+            @click="asignarRepartidorAlEnvio"
+          >
             Guardar
           </v-btn>
         </v-card-actions>
