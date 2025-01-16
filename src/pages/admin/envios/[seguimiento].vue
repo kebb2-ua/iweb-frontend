@@ -1,3 +1,13 @@
+<route lang="json">
+  {
+    "name": "detalles-envio-admin",
+    "meta": {
+      "requiresAuth": true,
+      "requiresRole": "ADMIN"
+    }
+  }
+  </route>
+
 <template>
   <v-container
     fluid
@@ -207,8 +217,7 @@
           </span>
         </v-card-title>
         <v-card-text>
-          <!-- Desplegable de repartidores: solo se muestra el campo "nombre" -->
-          <!-- En Vuetify 3: item-title="nombre" -->
+          <!-- Desplegable de repartidores: item-title="nombre" -->
           <v-select
             v-model="selectedRepartidor"
             :items="repartidores"
@@ -240,159 +249,154 @@
   </v-container>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router/auto'
-import axios from '@/api/axios'
+  <script setup>
+  import { ref, onMounted } from 'vue'
+  import { useRoute } from 'vue-router/auto'
+  import axios from '@/api/axios'
 
-// ==========================
-// PARÁMETROS DE RUTA
-// ==========================
-const route = useRoute()
-const seguimientoParam = route.params.seguimiento  // p.ej. "ENV-2025-PRUEBA"
+  // ==========================
+  // PARÁMETROS DE RUTA
+  // ==========================
+  const route = useRoute()
+  const seguimientoParam = route.params.seguimiento // p.ej. "ENV-2025-PRUEBA"
 
-// ==========================
-// STATE PRINCIPAL
-// ==========================
-const envio = ref(null)
-const loading = ref(false)
-const error = ref(null)
+  // ==========================
+  // STATE PRINCIPAL
+  // ==========================
+  const envio = ref(null)
+  const loading = ref(false)
+  const error = ref(null)
 
-// ==========================
-// SELECTOR DE REPARTIDOR
-// ==========================
-const openRepartidorDialog = ref(false)  // Para abrir/cerrar el <v-dialog>
-const repartidores = ref([])            // Lista de repartidores devuelta por /users
-const selectedRepartidor = ref(null)    // El repartidor seleccionado en el <v-select>
+  // ==========================
+  // SELECTOR DE REPARTIDOR
+  // ==========================
+  const openRepartidorDialog = ref(false)  // Para abrir/cerrar el <v-dialog>
+  const repartidores = ref([])            // Lista de repartidores devuelta por /users
+  const selectedRepartidor = ref(null)    // El repartidor seleccionado en el <v-select>
 
-// ==========================
-// OBTENER DETALLES DEL ENVÍO
-// ==========================
-const fetchEnvio = async () => {
-  loading.value = true
-  try {
-    const response = await axios.get(`/envios/${seguimientoParam}`)
-    envio.value = response.data
+  // ==========================
+  // OBTENER DETALLES DEL ENVÍO
+  // ==========================
+  const fetchEnvio = async () => {
+    loading.value = true
+    try {
+      const response = await axios.get(`/envios/${seguimientoParam}`)
+      envio.value = response.data
 
-    if (!envio.value) {
-      error.value = `No se encontró el envío con seguimiento "${seguimientoParam}"`
+      if (!envio.value) {
+        error.value = `No se encontró el envío con seguimiento "${seguimientoParam}"`
+      }
+    } catch (err) {
+      console.error(err)
+      error.value = 'Error al cargar los detalles del envío.'
+    } finally {
+      loading.value = false
     }
-  } catch (err) {
-    console.error(err)
-    error.value = 'Error al cargar los detalles del envío.'
-  } finally {
-    loading.value = false
-  }
-}
-
-// ==========================
-// OBTENER LISTA DE REPARTIDORES
-// ==========================
-const loadRepartidores = async () => {
-  try {
-    const response = await axios.get('/users')
-    repartidores.value = response.data
-    // Muestro por consola para verificar
-    console.log('Repartidores obtenidos:', repartidores.value)
-  } catch (err) {
-    console.error('Error al obtener repartidores:', err)
-  }
-}
-
-// ==========================
-// DIALOGO: ABRIR/CERRAR
-// ==========================
-const abrirDialogRepartidor = async () => {
-  openRepartidorDialog.value = true
-
-  // Carga la lista de repartidores
-  await loadRepartidores()
-
-  // Si el envío ya tiene repartidor asignado, lo preseleccionamos
-  selectedRepartidor.value = envio.value?.repartidor || null
-}
-
-const cancelarRepartidor = () => {
-  openRepartidorDialog.value = false
-  selectedRepartidor.value = null
-}
-
-// ==========================
-// ASIGNAR REPARTIDOR AL ENVÍO
-// ==========================
-const asignarRepartidorAlEnvio = async () => {
-  if (!selectedRepartidor.value) return
-
-  try {
-    // EJEMPLO: POST a "/envios/ENV-2025-PRUEBA/asignar?emailRepartidor=sam_email@test.test"
-    // con la parte del 'seguimiento' y el 'emailRepartidor' tomados del envio y del repartidor seleccionado.
-
-    const seguimiento = envio.value.seguimiento
-    const email = selectedRepartidor.value.email
-
-    // Llamada al endpoint para asignar el repartidor
-    const resp = await axios.post(`/envios/${seguimiento}/asignar`, null, {
-      params: { emailRepartidor: email }
-    })
-
-    // Asumimos que la respuesta trae el envío actualizado:
-    envio.value = resp.data
-    console.log('Repartidor asignado correctamente:', resp.data)
-  } catch (err) {
-    console.error('Error al asignar repartidor:', err)
-    error.value = 'Error al asignar repartidor al envío.'
-    return
   }
 
-  openRepartidorDialog.value = false
-}
+  // ==========================
+  // OBTENER LISTA DE REPARTIDORES
+  // ==========================
+  const loadRepartidores = async () => {
+    try {
+      const response = await axios.get('/users')
+      // Filtramos únicamente aquellos usuarios que tengan rol REPARTIDOR
+      repartidores.value = response.data.filter((user) =>
+        user.rolesList && user.rolesList.includes('REPARTIDOR')
+      )
+      console.log('Repartidores obtenidos (solo REPARTIDOR):', repartidores.value)
+    } catch (err) {
+      console.error('Error al obtener repartidores:', err)
+    }
+  }
 
-onMounted(() => {
-  fetchEnvio()
-})
-</script>
+  // ==========================
+  // DIALOGO: ABRIR/CERRAR
+  // ==========================
+  const abrirDialogRepartidor = async () => {
+    openRepartidorDialog.value = true
+    // Carga la lista de usuarios (solo REPARTIDOR)
+    await loadRepartidores()
+    // Preseleccionamos el repartidor actual (si lo hay)
+    selectedRepartidor.value = envio.value?.repartidor || null
+  }
 
-<style scoped>
-.background-light {
-  /* background-color: #f8f9fa; */
-}
+  const cancelarRepartidor = () => {
+    openRepartidorDialog.value = false
+    selectedRepartidor.value = null
+  }
 
-.my-4 {
-  margin: 1rem 0;
-}
+  // ==========================
+  // ASIGNAR REPARTIDOR AL ENVÍO
+  // ==========================
+  const asignarRepartidorAlEnvio = async () => {
+    if (!selectedRepartidor.value) return
 
-.mb-4 {
-  margin-bottom: 1rem;
-}
+    try {
+      // Asumimos que en tu backend tienes un endpoint:
+      // POST /envios/{seguimiento}/asignar?emailRepartidor=xxxxx
+      // que asigna (o cambia) el repartidor de un pedido.
+      const seguimiento = envio.value.seguimiento
+      const email = selectedRepartidor.value.email
 
-.mt-3 {
-  margin-top: 0.75rem;
-}
+      const resp = await axios.post(`/envios/${seguimiento}/asignar`, null, {
+        params: { emailRepartidor: email }
+      })
+      // Actualizamos el envío local con la respuesta
+      envio.value = resp.data
+      console.log('Repartidor asignado correctamente:', resp.data)
+    } catch (err) {
+      console.error('Error al asignar repartidor:', err)
+      error.value = 'Error al asignar repartidor al envío.'
+      return
+    }
 
-/* Estilos de lista sin viñetas */
-.no-bullet {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
+    openRepartidorDialog.value = false
+  }
 
-.card-minimal {
-  /* background-color: #fff; */
-  border-radius: 6px;
-}
+  onMounted(() => {
+    fetchEnvio()
+  })
+  </script>
 
-.title-text {
-  color: #3a3a3a;
-}
+  <style scoped>
+  .background-light {
+    /* background-color: #f8f9fa; */
+  }
 
-.subtitle {
-  color: #555;
-  font-size: 1rem;
-}
+  .my-4 {
+    margin: 1rem 0;
+  }
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+  .mt-3 {
+    margin-top: 0.75rem;
+  }
 
-.bulto-container {
-  padding: 0.5rem;
-  /* background-color: #fff; */
-  border-radius: 4px;
-}
-</style>
+  /* Estilos de lista sin viñetas */
+  .no-bullet {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .card-minimal {
+    /* background-color: #fff; */
+    border-radius: 6px;
+  }
+
+  .title-text {
+    color: #3a3a3a;
+  }
+
+  .subtitle {
+    color: #555;
+    font-size: 1rem;
+  }
+
+  .bulto-container {
+    padding: 0.5rem;
+    border-radius: 4px;
+  }
+  </style>

@@ -59,10 +59,11 @@ const menuItems = reactive([
   { icon: 'mdi-account-plus', text: 'Registro', path: '/registro', show: computed(() => !authStore.isAuthenticated) },
   { icon: 'mdi-cog', text: 'Ajustes', path: '/ajustes', show: computed(() => authStore.isAuthenticated) },
   { icon: 'mdi-logout', text: 'Cerrar sesión', path: '/logout', show: computed(() => authStore.isAuthenticated) },
-  { type: 'divider', show: computed(() => authStore.isAuthenticated) },
-  { type: 'header', text: 'Administración', show: computed(() => authStore.isAuthenticated) },
-  { icon: 'mdi-account-group', text: 'Lista de usuarios', path: '/admin/listausuarios', show: computed(() => authStore.isAuthenticated),},
-  { icon: 'mdi-truck-delivery', text: 'Lista de envíos', path: '/admin/listaenvios', show: computed(() => authStore.isAuthenticated), },
+  { type: 'divider', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')) },
+  { type: 'header', text: 'Administración', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')) },
+  { icon: 'mdi-account-group', text: 'Lista de usuarios', path: '/admin/listausuarios', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')),},
+  { icon: 'mdi-truck-delivery', text: 'Lista de envíos', path: '/admin/listaenvios', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')), },
+  { icon: 'mdi-road-variant', text: 'Rutas', path: '/admin/rutas', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')) },
 ])
 
 const menu = computed(() => {

@@ -1,15 +1,14 @@
 <route lang="json">
 {
-  "name": "envios-admin",
+  "name": "ruta",
   "meta": {
-    "requiresAuth": true,
-    "requiresRole": "ADMIN"
+    "requiresAuth": true
   }
 }
 </route>
 
 <script setup>
-import EnviosList from '@/components/EnviosList.vue';
+import EnviosList from '@/components/RutaDiaria.vue';
 </script>
 
 <template>
@@ -26,7 +25,7 @@ import EnviosList from '@/components/EnviosList.vue';
       max-width="1024"
       rounded="lg"
     >
-      <v-card-title>Lista de Envíos</v-card-title>
+      <v-card-title>Ruta de Reparto</v-card-title>
       <v-card-text>
         <EnviosList />
       </v-card-text>
