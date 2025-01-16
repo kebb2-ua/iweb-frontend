@@ -19,4 +19,18 @@ axiosInstance.interceptors.request.use((config) => {
   return Promise.reject(errorMessages);
 });
 
+axiosInstance.interceptors.response.use((response) => {
+  const authStore = useAuthStore();
+
+  const newToken = response.headers['Authorization'];
+  if (newToken) {
+    const token = newToken.startsWith('Bearer ') ? newToken.slice(7) : newToken;
+    authStore.changeJwtToken(token);
+  }
+
+  return response
+}, (error) => {
+  return Promise.reject(error);
+})
+
 export default axiosInstance;

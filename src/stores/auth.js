@@ -45,6 +45,18 @@ export const useAuthStore = defineStore('auth', {
         this.token = null;
         this.user = null;
       }
+    },
+
+    async changeJwtToken(token){
+      this.token = token;
+    },
+
+    async checkSession() {
+      const response = await axios.get('/');
+      if(response.status === 403) {
+        this.token = null;
+        this.user = null;
+      }
     }
   },
 
