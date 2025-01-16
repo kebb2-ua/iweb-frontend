@@ -354,7 +354,7 @@ onMounted(() => {
 
 <style scoped>
 .background-light {
-  background-color: #f8f9fa;
+  /* background-color: #f8f9fa; */
 }
 
 .my-4 {
@@ -377,7 +377,7 @@ onMounted(() => {
 }
 
 .card-minimal {
-  background-color: #fff;
+  /* background-color: #fff; */
   border-radius: 6px;
 }
 
@@ -392,7 +392,7 @@ onMounted(() => {
 
 .bulto-container {
   padding: 0.5rem;
-  background-color: #fff;
+  /* background-color: #fff; */
   border-radius: 4px;
 }
 </style>
