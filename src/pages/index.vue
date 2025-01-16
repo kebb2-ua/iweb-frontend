@@ -70,7 +70,7 @@
         </v-card-text>
 
         <v-btn
-          type="submit"
+          to="/envios/nuevo"
           class="my-2"
           color="blue"
           size="large"
