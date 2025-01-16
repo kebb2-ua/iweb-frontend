@@ -40,14 +40,6 @@ const login = async () => {
 
     <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
       Contraseña
-      <a
-        class="text-caption text-decoration-none text-blue"
-        href="#"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        He olvidado mi contraseña
-      </a>
     </div>
 
     <v-text-field
@@ -74,14 +66,13 @@ const login = async () => {
     </v-btn>
 
     <div class="text-center">
-      <a
+      <v-btn
+        to="/registro"
         class="text-blue text-decoration-none"
-        href="#"
-        rel="noopener noreferrer"
-        target="_blank"
+        variant="text"
       >
         Quiero registrarme <v-icon icon="mdi-chevron-right" />
-      </a>
+      </v-btn>
     </div>
   </v-form>
 </template>

@@ -63,6 +63,7 @@ const menuItems = reactive([
   { type: 'header', text: 'Administración', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')) },
   { icon: 'mdi-account-group', text: 'Lista de usuarios', path: '/admin/listausuarios', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')),},
   { icon: 'mdi-truck-delivery', text: 'Lista de envíos', path: '/admin/listaenvios', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')), },
+  { icon: 'mdi-road-variant', text: 'Rutas', path: '/admin/rutas', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')) },
 ])
 
 const menu = computed(() => {
