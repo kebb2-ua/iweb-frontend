@@ -52,11 +52,13 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async checkSession() {
-      const response = await axios.get('/');
+      const response = await axios.get('/envios');
       if(response.status === 403) {
         this.token = null;
         this.user = null;
+        return false;
       }
+      return true;
     }
   },
 
