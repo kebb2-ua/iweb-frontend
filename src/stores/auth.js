@@ -8,7 +8,8 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   getters: {
-    isAuthenticated: (state) => !!state.token, // Retorna true si el usuario está autenticado
+    isAuthenticated: (state) => !!state.token,
+    getRoles: (state) => state.user.rolesList
   },
 
   actions: {
