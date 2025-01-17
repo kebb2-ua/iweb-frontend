@@ -45,7 +45,7 @@
         // Asignar pedidos filtrados a la variable reactiva
         pedidos.value = pedidosFiltrados;
       } catch (err) {
-        if(err.status !== 404) {
+        if(err.status !== 404 && err.status !== 500) {
           error.value = 'Error al cargar los pedidos de hoy.';
           console.error(err);
         }
