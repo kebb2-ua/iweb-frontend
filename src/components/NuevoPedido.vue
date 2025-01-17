@@ -11,7 +11,7 @@ const authStore = useAuthStore();
 
 let paso = ref("ORIGEN");
 
-let nombreRemitente = ref(authStore.user.nombre + ' ' + authStore.user.apellidos);
+let nombreRemitente = ref(authStore.user.razonSocial ?? authStore.user.nombre + ' ' + authStore.user.apellidos);
 let lineaDireccionOrigen1 = ref(authStore.user.direccion.lineaDireccion1);
 let lineaDireccionOrigen2 = ref(authStore.user.direccion.lineaDireccion2);
 let codigoPostalOrigen = ref(authStore.user.direccion.codigoPostal);

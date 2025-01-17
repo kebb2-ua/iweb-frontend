@@ -8,7 +8,7 @@
       <v-list-item
         prepend-avatar="@/assets/logo.svg"
         title="Yaco Packages"
-        :subtitle="authStore.isAuthenticated ? (authStore.user.nombre + ' ' + authStore.user.apellidos) : null"
+        :subtitle="authStore.isAuthenticated ? (authStore.user.razonSocial ?? (authStore.user.nombre + ' ' + authStore.user.apellidos)) : null"
       />
     </v-list>
 
