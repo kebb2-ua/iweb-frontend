@@ -19,17 +19,39 @@
     const router = useRouter()
   
     const fetchPedidos = async () => {
-      loading.value = true
+      loading.value = true;
       try {
-        const response = await axios.get('/rutas/diaria')
-        pedidos.value = response.data.pedidos
+        // Obtener datos de las dos APIs
+        const [rutasResponse, enviosResponse] = await Promise.all([
+          axios.get('/rutas/diaria'),
+          axios.get('/envios'),
+        ]);
+
+        // Lista de pedidos desde /rutas/diaria
+        const pedidosRutas = rutasResponse.data.pedidos;
+
+        // Lista de envíos completos desde /envios
+        const envios = enviosResponse.data;
+
+        // Filtrar envíos que están en pedidosRutas
+        const pedidosFiltrados = envios.filter((envio) => {
+          return pedidosRutas.some((pedidoRuta) =>
+            pedidoRuta.bultos.some((bultoRuta) =>
+              envio.bultos.some((bultoEnvio) => bultoRuta.id === bultoEnvio.id)
+            )
+          );
+        });
+
+        // Asignar pedidos filtrados a la variable reactiva
+        pedidos.value = pedidosFiltrados;
       } catch (err) {
-        error.value = 'Error al cargar los pedidos de hoy.'
-        console.error(err)
+        error.value = 'Error al cargar los pedidos de hoy.';
+        console.error(err);
       } finally {
-        loading.value = false
+        loading.value = false;
       }
-    }
+    };
+
   
     const navigateToPedido = (pedidoId) => {
       // Navegamos a la vista de detalles del pedido

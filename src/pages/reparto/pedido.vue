@@ -146,8 +146,15 @@ onMounted(() => {
               v-model="estadoSeleccionado"
               :items="estadoOptions"
               label="Estado"
-              @change="actualizarEstado"
             />
+            <v-btn
+              class="mt-4"
+              color="primary"
+              :disabled="estadoSeleccionado === pedido.estado || updating"
+              @click="actualizarEstado"
+            >
+              Confirmar Estado
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
