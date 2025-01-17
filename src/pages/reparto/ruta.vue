@@ -52,11 +52,9 @@
       }
     };
 
-  
-    const navigateToPedido = (pedidoId) => {
-      // Navegamos a la vista de detalles del pedido
-      router.push({ name: 'pedido-detalle', params: { id: pedidoId } })
-    }
+    const navigateToPedido = (seguimiento) => {
+      router.push({ name: 'pedido-detalle', query: { seguimiento } });
+    };
   
     onMounted(() => {
       fetchPedidos()

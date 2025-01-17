@@ -1,5 +1,6 @@
 <route lang="json">
   {
+    "path": "/pedido/:seguimiento",
     "name": "pedido-detalle",
     "meta": {
       "requiresAuth": true,
@@ -23,11 +24,17 @@ const estadoSeleccionado = ref('');
 
 const fetchPedido = async () => {
   loading.value = true;
-  const { id } = route.params;  // Obtener el id del pedido desde la ruta
+  const seguimiento = route.query.seguimiento; // Obtener el seguimiento de los query parameters
+
+  if (!seguimiento) {
+    error.value = "El número de seguimiento no está disponible.";
+    loading.value = false;
+    return;
+  }
+
   try {
-    const response = await axios.get(`/pedidos/${id}`);  // Llamada al backend para obtener el pedido por ID
+    const response = await axios.get(`/envios/${seguimiento}`);
     pedido.value = response.data;
-    estadoSeleccionado.value = pedido.value.estado;
   } catch (err) {
     error.value = 'Error al cargar los detalles del pedido.';
     console.error(err);
@@ -39,8 +46,19 @@ const fetchPedido = async () => {
 const actualizarEstado = async () => {
   if (estadoSeleccionado.value !== pedido.value.estado) {
     try {
-      await axios.post(`/pedidos/${pedido.value.seguimiento}/estado`, { estado: estadoSeleccionado.value });
-      pedido.value.estado = estadoSeleccionado.value;  // Actualiza el estado en la UI
+      // Crear objeto con la fecha de actualización
+      const estadoData = {
+        estado: estadoSeleccionado.value,
+        estado_ultima_actualizacion: new Date().toISOString()  // Agregar la fecha y hora actuales
+      };
+
+      // Realizar la solicitud POST para actualizar el estado
+      await axios.post(`/envios/${pedido.value.seguimiento}/estado`, estadoData);
+      
+      // Actualizar el estado local
+      pedido.value.estado = estadoSeleccionado.value;
+
+      // Notificar al usuario
       alert('Estado actualizado con éxito.');
     } catch (err) {
       error.value = 'Error al actualizar el estado del pedido.';
@@ -48,6 +66,8 @@ const actualizarEstado = async () => {
     }
   }
 };
+
+
 
 onMounted(() => {
   fetchPedido();
@@ -68,7 +88,7 @@ onMounted(() => {
       max-width="1024"
       rounded="lg"
     >
-      <v-card-title>Detalles del Pedido #{{ pedido.seguimiento }}</v-card-title>
+    <v-card-title v-if="pedido">Detalles del Pedido #{{ pedido.seguimiento }}</v-card-title>
 
       <!-- Cargando o error -->
       <v-card-text v-if="loading">
@@ -138,7 +158,6 @@ onMounted(() => {
           </v-col>
         </v-row>
 
-        <!-- Cambio de estado -->
         <v-row>
           <v-col cols="12" md="6">
             <v-card-title>Cambiar Estado</v-card-title>
