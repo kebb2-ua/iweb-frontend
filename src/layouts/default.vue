@@ -59,6 +59,7 @@ const menuItems = reactive([
   { icon: 'mdi-account-plus', text: 'Registro', path: '/registro', show: computed(() => !authStore.isAuthenticated) },
   { icon: 'mdi-cog', text: 'Ajustes', path: '/ajustes', show: computed(() => authStore.isAuthenticated) },
   { icon: 'mdi-logout', text: 'Cerrar sesión', path: '/logout', show: computed(() => authStore.isAuthenticated) },
+  { icon: 'mdi-road-variant', text: 'Ruta de reparto', path: '/reparto/ruta', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('REPARTIDOR')) },
   { type: 'divider', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')) },
   { type: 'header', text: 'Administración', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')) },
   { icon: 'mdi-account-group', text: 'Lista de usuarios', path: '/admin/listausuarios', show: computed(() => authStore.isAuthenticated && authStore.getRoles.includes('ADMIN')),},
