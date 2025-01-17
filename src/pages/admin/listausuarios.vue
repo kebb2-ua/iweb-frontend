@@ -9,9 +9,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from '@/api/axios'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 // Roles disponibles en tu backend
 const availableRoles = ['USER', 'REPARTIDOR', 'ADMIN']

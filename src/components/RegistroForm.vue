@@ -47,17 +47,23 @@ const registro = async () => {
 
     
     <v-switch 
-      class="mt-3"
       v-model="isEmpresa"
+      class="mt-3"
       label="¿Eres una empresa?"
       color="primary"
     />
     
-    <div class="text-subtitle-1 text-medium-emphasis" v-if="!isEmpresa">
+    <div
+      v-if="!isEmpresa"
+      class="text-subtitle-1 text-medium-emphasis"
+    >
       NIF
     </div>
 
-    <div class="text-subtitle-1 text-medium-emphasis" v-if="isEmpresa">
+    <div
+      v-if="isEmpresa"
+      class="text-subtitle-1 text-medium-emphasis"
+    >
       CIF
     </div>
 

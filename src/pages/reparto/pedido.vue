@@ -11,11 +11,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import axios from '@/api/axios';
 
 const route = useRoute();
-const router = useRouter();
 const pedido = ref(null);
 const loading = ref(false);
 const error = ref(null);
@@ -24,7 +23,7 @@ const estadoSeleccionado = ref('');
 
 const fetchPedido = async () => {
   loading.value = true;
-  const seguimiento = route.query.seguimiento; // Obtener el seguimiento de los query parameters
+  const seguimiento = route.params.seguimiento; // Obtener el seguimiento de los query parameters
 
   if (!seguimiento) {
     error.value = "El número de seguimiento no está disponible.";
@@ -54,7 +53,7 @@ const actualizarEstado = async () => {
 
       // Realizar la solicitud POST para actualizar el estado
       await axios.post(`/envios/${pedido.value.seguimiento}/estado`, estadoData);
-      
+
       // Actualizar el estado local
       pedido.value.estado = estadoSeleccionado.value;
 
@@ -88,7 +87,9 @@ onMounted(() => {
       max-width="1024"
       rounded="lg"
     >
-    <v-card-title v-if="pedido">Detalles del Pedido #{{ pedido.seguimiento }}</v-card-title>
+      <v-card-title v-if="pedido">
+        Detalles del Pedido #{{ pedido.seguimiento }}
+      </v-card-title>
 
       <!-- Cargando o error -->
       <v-card-text v-if="loading">
@@ -99,13 +100,18 @@ onMounted(() => {
       </v-card-text>
 
       <v-card-text v-if="error">
-        <v-alert type="error">{{ error }}</v-alert>
+        <v-alert type="error">
+          {{ error }}
+        </v-alert>
       </v-card-text>
 
       <!-- Detalles del pedido -->
       <v-card-text v-if="pedido">
         <v-row>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-card-title>Información del Pedido</v-card-title>
             <v-card-text>
               <p><strong>Observaciones:</strong> {{ pedido.observaciones || 'Sin observaciones' }}</p>
@@ -113,7 +119,10 @@ onMounted(() => {
               <p><strong>Estado Actual:</strong> {{ pedido.estado }}</p>
             </v-card-text>
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-card-title>Origen</v-card-title>
             <v-card-text>
               <p>{{ pedido.origen.nombre }}</p>
@@ -125,7 +134,10 @@ onMounted(() => {
         </v-row>
 
         <v-row>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-card-title>Bultos</v-card-title>
             <v-card-text>
               <p>El paquete contiene {{ pedido.bultos.length }} bulto(s).</p>
@@ -134,20 +146,21 @@ onMounted(() => {
                   v-for="(bulto, index) in pedido.bultos"
                   :key="index"
                 >
-                  <v-list-item-content>
-                    <v-list-item-title>Bulto {{ index + 1 }}</v-list-item-title>
-                    <v-list-item-subtitle>
-                      Peso: {{ bulto.peso }} kg
-                    </v-list-item-subtitle>
-                    <v-list-item-subtitle>
-                      Dimensiones: {{ bulto.altura }}x{{ bulto.ancho }}x{{ bulto.profundidad }} cm
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
+                  <v-list-item-title>Bulto {{ index + 1 }}</v-list-item-title>
+                  <v-list-item-subtitle>
+                    Peso: {{ bulto.peso }} kg
+                  </v-list-item-subtitle>
+                  <v-list-item-subtitle>
+                    Dimensiones: {{ bulto.altura }}x{{ bulto.ancho }}x{{ bulto.profundidad }} cm
+                  </v-list-item-subtitle>
                 </v-list-item>
               </v-list>
             </v-card-text>
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-card-title>Destino</v-card-title>
             <v-card-text>
               <p>{{ pedido.destino.nombre }}</p>
@@ -159,7 +172,10 @@ onMounted(() => {
         </v-row>
 
         <v-row>
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-card-title>Cambiar Estado</v-card-title>
             <v-select
               v-model="estadoSeleccionado"
@@ -169,7 +185,7 @@ onMounted(() => {
             <v-btn
               class="mt-4"
               color="primary"
-              :disabled="estadoSeleccionado === pedido.estado || updating"
+              :disabled="estadoSeleccionado === pedido.estado"
               @click="actualizarEstado"
             >
               Confirmar Estado

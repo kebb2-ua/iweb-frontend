@@ -32,6 +32,14 @@ let props = defineProps({
       </tr>
     </thead>
     <tbody>
+      <tr>
+        <td
+          v-if="props.envios.length === 0"
+          colspan="6"
+        >
+          No tienes ningún envío creado.
+        </td>
+      </tr>
       <tr
         v-for="envio in props.envios"
         :key="envio"

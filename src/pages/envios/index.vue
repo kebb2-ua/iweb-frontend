@@ -15,6 +15,9 @@ import { onMounted, ref } from 'vue';
 let envios = ref([]);
 onMounted(async () => {
   const response = await axios.get('/envios/owned');
+  if(response.data === "") {
+    return;
+  }
   envios.value = response.data;
 });
 </script>

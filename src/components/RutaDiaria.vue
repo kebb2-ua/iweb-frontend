@@ -59,19 +59,24 @@ onMounted(() => {
     </v-card>
 
     <!-- Muestra la ruta -->
-    <v-card v-else class="mb-4 pa-4 elevation-1">
+    <v-card
+      v-else
+      class="mb-4 pa-4 elevation-1"
+    >
       <v-card-title>
         Ruta de reparto
       </v-card-title>
       <v-card-text>
         <!-- Repartidor -->
         <div class="mb-2">
-          <h3 class="text-subtitle-1 font-weight-bold mb-1">Repartidor</h3>
+          <h3 class="text-subtitle-1 font-weight-bold mb-1">
+            Repartidor
+          </h3>
           <p v-if="ruta.repartidor">
             <strong>Nombre: </strong>{{ ruta.repartidor.nombre }} {{ ruta.repartidor.apellidos }}
-            <br />
+            <br>
             <strong>NIF: </strong>{{ ruta.repartidor.nif }}
-            <br />
+            <br>
             <strong>Email: </strong>{{ ruta.repartidor.email }}
           </p>
           <p v-else>
@@ -81,23 +86,31 @@ onMounted(() => {
 
         <!-- Fecha de la ruta -->
         <div class="mb-2">
-          <h3 class="text-subtitle-1 font-weight-bold mb-1">Fecha</h3>
+          <h3 class="text-subtitle-1 font-weight-bold mb-1">
+            Fecha
+          </h3>
           <p>{{ ruta.fecha }}</p>
         </div>
 
         <!-- Pedidos -->
         <div class="mb-2">
-          <h3 class="text-subtitle-1 font-weight-bold mb-1">Pedidos ({{ ruta.pedidos.length }})</h3>
-          <div v-for="(pedido, pIdx) in ruta.pedidos" :key="pIdx" class="pedido-info my-2">
+          <h3 class="text-subtitle-1 font-weight-bold mb-1">
+            Pedidos ({{ ruta.pedidos.length }})
+          </h3>
+          <div
+            v-for="(pedido, pIdx) in ruta.pedidos"
+            :key="pIdx"
+            class="pedido-info my-2"
+          >
             <strong>Origen:</strong> {{ pedido.origen.nombre }},
             {{ pedido.origen.lineaDireccion1 }}, {{ pedido.origen.localidad }} ({{ pedido.origen.codigoPostal }})
 
-            <br />
+            <br>
             <!-- Destino -->
             <strong>Destino:</strong> {{ pedido.destino.nombre }},
             {{ pedido.destino.lineaDireccion1 }}, {{ pedido.destino.localidad }} ({{ pedido.destino.codigoPostal }})
 
-            <br />
+            <br>
             <!-- Bultos -->
             <strong>Bultos:</strong> {{ pedido.bultos.length }}
           </div>
