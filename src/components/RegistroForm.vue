@@ -29,7 +29,7 @@ const router = useRouter();
 const registro = async () => {
   try {
     await authStore.registro(nif.value, nombre.value, apellidos.value, razonSocial.value, email.value, password.value, 
-    lineaDireccion1.value, lineaDireccion2.value, codigoPostal.value, pais.value, provincia.value, municipio.value, localidad.value);
+    lineaDireccion1.value, lineaDireccion2.value, codigoPostal.value, pais.value, provincia.value, municipio.value, localidad.value, isEmpresa.value);
     router.push('/login');
   } catch(error) {
     console.error(error)
@@ -45,8 +45,20 @@ const registro = async () => {
       Datos personales
     </div>
 
-    <div class="text-subtitle-1 text-medium-emphasis">
+    
+    <v-switch 
+      class="mt-3"
+      v-model="isEmpresa"
+      label="¿Eres una empresa?"
+      color="primary"
+    />
+    
+    <div class="text-subtitle-1 text-medium-emphasis" v-if="!isEmpresa">
       NIF
+    </div>
+
+    <div class="text-subtitle-1 text-medium-emphasis" v-if="isEmpresa">
+      CIF
     </div>
 
     <v-text-field
@@ -237,13 +249,7 @@ const registro = async () => {
       required
     />
         
-    <div>
-      <v-switch 
-        v-model="isEmpresa"
-        label="¿Eres una empresa?"
-        color="primary"
-      />
-    </div>
+    
 
     <v-btn
       type="submit"
