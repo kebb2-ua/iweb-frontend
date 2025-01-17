@@ -102,7 +102,7 @@
           cols="12"
           md="6"
         >
-          <v-card class="mb-4 pa-4 elevation-1" @click="navigateToPedido(pedido.id)">
+          <v-card class="mb-4 pa-4 elevation-1" @click="navigateToPedido(pedido.seguimiento)">
             <v-card-title>
               Pedido #{{ pedido.seguimiento }}
             </v-card-title>
