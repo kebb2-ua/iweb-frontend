@@ -52,10 +52,6 @@ const changeUserRole = async (email, newRole) => {
 onMounted(() => {
   fetchUsers()
 })
-
-const redirigirAsignarPedido = (userEmail) => {
-  router.push(`/admin/asignar-pedido/${userEmail}`)
-}
 </script>
 
 <template>
@@ -116,16 +112,6 @@ const redirigirAsignarPedido = (userEmail) => {
                 label="Rol"
                 @update:model-value="val => changeUserRole(user.email, val)"
               />
-
-              <!-- Botón "Añadir Envío" solo para REPARTIDORES -->
-              <v-btn
-                v-if="user.selectedRole === 'REPARTIDOR'"
-                color="primary"
-                class="mt-2"
-                @click="redirigirAsignarPedido(user.email)"
-              >
-                Añadir Envío
-              </v-btn>
             </v-card-text>
           </v-card>
         </v-col>

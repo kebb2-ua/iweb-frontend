@@ -21,8 +21,8 @@
     const fetchPedidos = async () => {
       loading.value = true
       try {
-        const response = await axios.get('/rutas/diaria') // El backend devuelve la ruta de hoy
-        pedidos.value = response.data.pedidos // Extraemos solo los pedidos de la ruta
+        const response = await axios.get('/rutas/diaria')
+        pedidos.value = response.data.pedidos
       } catch (err) {
         error.value = 'Error al cargar los pedidos de hoy.'
         console.error(err)
@@ -82,7 +82,7 @@
         >
           <v-card class="mb-4 pa-4 elevation-1" @click="navigateToPedido(pedido.id)">
             <v-card-title>
-              Pedido #{{ pedido.id }}
+              Pedido #{{ pedido.seguimiento }}
             </v-card-title>
             <v-card-text>
               <div class="mb-2">
@@ -98,6 +98,11 @@
                 <br>
                 <!-- Bultos -->
                 <strong>Bultos:</strong> {{ pedido.bultos.length }}
+
+                <br>
+                <br>
+                <!-- Detalles -->
+                <strong style="text-align: center">Ver Detalles</strong>
               </div>
             </v-card-text>
           </v-card>

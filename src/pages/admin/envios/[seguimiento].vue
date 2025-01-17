@@ -221,7 +221,7 @@
           <v-select
             v-model="selectedRepartidor"
             :items="repartidores"
-            item-title="nombre"
+            :item-title="item => item.nombre || item.razonSocial"
             return-object
             label="Selecciona un repartidor"
             density="compact"
@@ -338,10 +338,51 @@
       // que asigna (o cambia) el repartidor de un pedido.
       const seguimiento = envio.value.seguimiento
       const email = selectedRepartidor.value.email
+      const token = localStorage.getItem('authToken')
 
       const resp = await axios.post(`/envios/${seguimiento}/asignar`, null, {
         params: { emailRepartidor: email }
       })
+
+      // Verifica si existe una ruta para el repartidor
+      const { data: rutas } = await axios.get('/rutas', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      const hoy = new Date().toISOString().split('T')[0]  // Formato YYYY-MM-DD
+      const rutaExistente = rutas.find(ruta =>
+        ruta.repartidor.email === email &&
+        ruta.fecha.split('T')[0] === hoy
+      )
+
+      if (!rutaExistente) {
+        // Si NO tiene ruta, crear una nueva y asignar el pedido
+        await axios.post('/rutas', {
+          repartidorId: selectedRepartidor.value.id,
+          fecha: new Date(),
+          idsPedidos: [1]
+        }, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        console.log('Ruta creada y pedido asignado correctamente.')
+      }
+
+      // Asignar el pedido
+      await axios.post('/rutas/asignar', null, {
+        params: {
+          email: email,
+          seguimiento: seguimiento
+        },
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      console.log('Pedido asignado a la ruta existente.')
+
       // Actualizamos el envío local con la respuesta
       envio.value = resp.data
       console.log('Repartidor asignado correctamente:', resp.data)
@@ -350,7 +391,7 @@
       error.value = 'Error al asignar repartidor al envío.'
       return
     }
-
+    
     openRepartidorDialog.value = false
   }
 
