@@ -401,10 +401,6 @@
   </script>
 
   <style scoped>
-  .background-light {
-    /* background-color: #f8f9fa; */
-  }
-
   .my-4 {
     margin: 1rem 0;
   }
