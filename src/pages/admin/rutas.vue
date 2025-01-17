@@ -19,12 +19,18 @@
   /**
    * Llamada al endpoint GET /api/v1/rutas
    */
-  const fetchRutas = async () => {
+   const fetchRutas = async () => {
     loading.value = true
     try {
-      const response = await axios.get('/rutas') // Base URL = https://iweb.kikisito.com/api/v1
-      rutas.value = response.data
-      // Opcional: console.log(rutas.value) para verificar en consola
+      const response = await axios.get('/rutas')
+      const today = new Date().toISOString().split('T')[0]
+      console.log('Fecha de hoy (today):', today)
+
+      rutas.value = response.data.filter(ruta => {
+        const rutaFecha = ruta.fecha.split('T')[0]
+        console.log('Fecha de la ruta:', rutaFecha)
+        return rutaFecha === today
+      })
     } catch (err) {
       error.value = 'Error al cargar las rutas.'
       console.error(err)
@@ -32,6 +38,9 @@
       loading.value = false
     }
   }
+
+
+
 
   onMounted(() => {
     fetchRutas()
@@ -41,7 +50,7 @@
 <template>
   <v-container>
     <h1 class="text-h4 my-4">
-      Listado de Rutas
+      Listado de Rutas de Hoy
     </h1>
 
     <!-- Loading -->
